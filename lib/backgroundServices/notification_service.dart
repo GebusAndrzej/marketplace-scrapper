@@ -1,21 +1,23 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationTest extends StatefulWidget {
-  @override
-  State<NotificationTest> createState() => _NotificationTest();
-}
+class NotificationService {
+  static final NotificationService _singleton =
+      new NotificationService._internal();
 
-class _NotificationTest extends State<NotificationTest> {
-  var initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  var initializationSettingsAndroid = const AndroidInitializationSettings(
+    '@mipmap/ic_launcher',
+  );
 
   late InitializationSettings initializationSettings;
   var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  _NotificationTest() {
+  factory NotificationService() {
+    return _singleton;
+  }
+
+  NotificationService._internal() {
     initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
     );
@@ -27,7 +29,7 @@ class _NotificationTest extends State<NotificationTest> {
     );
   }
 
-  Future _showNotification() async {
+  Future showNotification() async {
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
         'Channel id', 'ChannelName',
         importance: Importance.defaultImportance,
@@ -44,16 +46,6 @@ class _NotificationTest extends State<NotificationTest> {
       platformChannelSpecifics,
       payload:
           'Message - There is a new notification on your account, kindly check it out',
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        _showNotification();
-      },
-      child: Text("Send notification"),
     );
   }
 }

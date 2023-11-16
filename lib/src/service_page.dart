@@ -2,8 +2,7 @@
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:olx_bot/src/notification_test.dart';
+import 'package:olx_bot/backgroundServices/notification_service.dart';
 
 class ServiceTest extends StatefulWidget {
   @override
@@ -40,6 +39,7 @@ class _ServiceTestState extends State<ServiceTest> {
         // <-- Event handler
         // This is the fetch-event callback.
         print("[BackgroundFetch] Event received $taskId");
+        NotificationService().showNotification();
         setState(() {
           _events.insert(0, new DateTime.now());
         });
@@ -128,7 +128,12 @@ class _ServiceTestState extends State<ServiceTest> {
             child: Text("$_status"),
             margin: EdgeInsets.only(left: 20.0),
           ),
-          NotificationTest(),
+          // NotificationTest(),
+          ElevatedButton(
+              onPressed: () {
+                NotificationService().showNotification();
+              },
+              child: const Text("Notification"))
         ])),
       ),
     );
