@@ -2,6 +2,8 @@
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:olx_bot/src/notification_test.dart';
 
 class ServiceTest extends StatefulWidget {
   @override
@@ -123,7 +125,10 @@ class _ServiceTestState extends State<ServiceTest> {
             child: Row(children: <Widget>[
           ElevatedButton(onPressed: _onClickStatus, child: Text('Status')),
           Container(
-              child: Text("$_status"), margin: EdgeInsets.only(left: 20.0))
+            child: Text("$_status"),
+            margin: EdgeInsets.only(left: 20.0),
+          ),
+          NotificationTest(),
         ])),
       ),
     );
