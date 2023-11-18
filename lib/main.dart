@@ -1,7 +1,8 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:olx_bot/backgroundServices/olx_service.dart';
-import 'package:olx_bot/src/service_page.dart';
+import 'package:olx_bot/src/pages/olx_add_page.dart';
+import 'package:olx_bot/src/pages/service_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class _AppState extends State<App> {
         primarySwatch: Colors.blue,
       ),
       // home: const HomePage(title: 'Flutter Demo Home Page'),
-      home: ServiceTest(),
+      home: OlxAddPage(),
     );
   }
 }
