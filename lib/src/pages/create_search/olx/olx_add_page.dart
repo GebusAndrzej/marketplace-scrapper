@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:olx_bot/services/api/olx/types.dart';
-import 'package:olx_bot/src/pages/components/olx_city_searchdelegate.dart';
+
+import 'components/olx_city_searchdelegate.dart';
 
 class OlxAddPage extends StatefulWidget {
   const OlxAddPage({super.key});
@@ -26,6 +27,28 @@ class _OlxAddPageState extends State<OlxAddPage> {
             key: _formKey,
             child: ListView(
               children: [
+                ListTile(
+                  leading: const Icon(Icons.location_city_rounded),
+                  title: TextFormField(
+                    controller: cityController,
+                    readOnly: true,
+                    onTap: () async {
+                      final location = await showSearch(
+                        context: context,
+                        delegate: OlxCitySearchDelegate(),
+                      );
+
+                      if (location != null) {
+                        setState(() {
+                          this.location = location;
+                        });
+
+                        cityController.text = location.city.name;
+                      }
+                    },
+                  ),
+                ),
+                // TODO: zmienić na kategorię
                 ListTile(
                   leading: const Icon(Icons.location_city_rounded),
                   title: TextFormField(
