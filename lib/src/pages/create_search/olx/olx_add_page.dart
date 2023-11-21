@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:olx_bot/services/api/olx/types.dart';
+import 'package:olx_bot/services/api/olx/types/category_types.dart';
+import 'package:olx_bot/services/api/olx/types/location_types.dart';
+import 'package:olx_bot/src/pages/create_search/olx/components/olx_category_searchdelegate.dart';
 
 import 'components/olx_city_searchdelegate.dart';
 
@@ -14,14 +16,18 @@ class _OlxAddPageState extends State<OlxAddPage> {
   _OlxAddPageState();
 
   OlxLocationSuggestion? location;
+  OlxCategorySearch? category;
+
   TextEditingController cityController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add new filter"),
+          title: const Text("Wyszukiwarka olx"),
         ),
         body: Form(
             key: _formKey,
@@ -32,6 +38,8 @@ class _OlxAddPageState extends State<OlxAddPage> {
                   title: TextFormField(
                     controller: cityController,
                     readOnly: true,
+                    decoration:
+                        const InputDecoration(hintText: "Wybierz lokalizację"),
                     onTap: () async {
                       final location = await showSearch(
                         context: context,
@@ -48,24 +56,25 @@ class _OlxAddPageState extends State<OlxAddPage> {
                     },
                   ),
                 ),
-                // TODO: zmienić na kategorię
                 ListTile(
-                  leading: const Icon(Icons.location_city_rounded),
+                  leading: const Icon(Icons.category_outlined),
                   title: TextFormField(
-                    controller: cityController,
+                    controller: categoryController,
                     readOnly: true,
+                    decoration:
+                        const InputDecoration(hintText: "Wybierz kategorię"),
                     onTap: () async {
-                      final location = await showSearch(
+                      final category = await showSearch(
                         context: context,
-                        delegate: OlxCitySearchDelegate(),
+                        delegate: OlxCategorySearchDelegate(),
                       );
 
-                      if (location != null) {
+                      if (category != null) {
                         setState(() {
-                          this.location = location;
+                          this.category = category;
                         });
 
-                        cityController.text = location.city.name;
+                        categoryController.text = category.similarSearch;
                       }
                     },
                   ),
@@ -86,6 +95,7 @@ class _OlxAddPageState extends State<OlxAddPage> {
                 if (location != null) Text('region: ${location?.region.id}'),
                 if (location != null)
                   Text('region: ${location?.region.normalizedName}'),
+                if (category != null) Text('category: ${category?.categoryId}'),
               ],
             )));
   }

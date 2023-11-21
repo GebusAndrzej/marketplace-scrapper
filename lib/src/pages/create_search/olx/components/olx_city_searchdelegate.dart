@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:olx_bot/services/api/olx/olx_api_service.dart';
-import 'package:olx_bot/services/api/olx/types.dart';
+import 'package:olx_bot/services/api/olx/types/location_types.dart';
 
 class OlxCitySearchDelegate extends SearchDelegate<OlxLocationSuggestion?> {
   @override
@@ -9,9 +9,12 @@ class OlxCitySearchDelegate extends SearchDelegate<OlxLocationSuggestion?> {
   }
 
   @override
+  String get searchFieldLabel => "Lokalizacja";
+
+  @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -27,7 +30,9 @@ class OlxCitySearchDelegate extends SearchDelegate<OlxLocationSuggestion?> {
           return ListView.builder(
             itemBuilder: (context, index) {
               return ListTile(
+                leading: const Icon(Icons.location_city_rounded),
                 title: Text(snapshot.data![index].city.name),
+                subtitle: Text(snapshot.data![index].region.name),
                 onTap: () {
                   close(context, snapshot.data![index]);
                 },
@@ -36,7 +41,7 @@ class OlxCitySearchDelegate extends SearchDelegate<OlxLocationSuggestion?> {
             itemCount: snapshot.data!.length,
           );
         } else {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }

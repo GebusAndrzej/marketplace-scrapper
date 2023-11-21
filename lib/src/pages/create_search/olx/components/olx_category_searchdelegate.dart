@@ -1,37 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:olx_bot/services/api/olx/olx_api_service.dart';
+import 'package:olx_bot/services/api/olx/types/category_types.dart';
 
-class ToDo {
-  int id;
-  String title;
-  bool completed;
-
-  ToDo({
-    required this.id,
-    required this.title,
-    required this.completed,
-  });
-
-  factory ToDo.fromJson(Map<String, dynamic> json) => ToDo(
-        id: json['id'],
-        title: json['title'],
-        completed: json['completed'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'completed': completed,
-      };
-}
-
-class ToDoSearchDelegate extends SearchDelegate<ToDo?> {
+class OlxCategorySearchDelegate extends SearchDelegate<OlxCategorySearch?> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[];
   }
+
+  @override
+  String get searchFieldLabel => "Kategoria";
 
   @override
   Widget buildLeading(BuildContext context) {
@@ -45,14 +23,16 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder<List<ToDo>>(
+    return FutureBuilder<List<OlxCategorySearch>>(
       future: _search(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return ListView.builder(
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(snapshot.data![index].title),
+                leading: const Icon(Icons.category_rounded),
+                title: Text(snapshot.data![index].similarSearch),
+                subtitle: Text(snapshot.data![index].href),
                 onTap: () {
                   close(context, snapshot.data![index]);
                 },
@@ -74,13 +54,11 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo?> {
     return Container();
   }
 
-  Future<List<ToDo>> _search() async {
-    final authority = 'jsonplaceholder.typicode.com';
-    final path = 'todos';
-    final queryParameters = <String, String>{'title': query};
-    final uri = Uri.https(authority, path, queryParameters);
-    final result = await http.get(uri);
-    final list = json.decode(result.body) as List;
-    return list.map((e) => ToDo.fromJson(e)).toList();
+  Future<List<OlxCategorySearch>> _search() async {
+    final locations = await OlxApiService().searchCategories(query);
+
+    final list = locations.data.searches;
+
+    return list;
   }
 }

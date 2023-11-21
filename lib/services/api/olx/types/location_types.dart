@@ -24,10 +24,10 @@ class LocationAutocompleteResponse {
 }
 
 class OlxLocationSuggestion {
-  City city;
-  County municipality;
-  County county;
-  Region region;
+  OlxCity city;
+  OlxCounty municipality;
+  OlxCounty county;
+  OlxRegion region;
 
   OlxLocationSuggestion({
     required this.city,
@@ -43,10 +43,10 @@ class OlxLocationSuggestion {
 
   factory OlxLocationSuggestion.fromJson(Map<String, dynamic> json) =>
       OlxLocationSuggestion(
-        city: City.fromJson(json["city"]),
-        municipality: County.fromJson(json["municipality"]),
-        county: County.fromJson(json["county"]),
-        region: Region.fromJson(json["region"]),
+        city: OlxCity.fromJson(json["city"]),
+        municipality: OlxCounty.fromJson(json["municipality"]),
+        county: OlxCounty.fromJson(json["county"]),
+        region: OlxRegion.fromJson(json["region"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,14 +57,14 @@ class OlxLocationSuggestion {
       };
 }
 
-class City {
+class OlxCity {
   int id;
   String name;
   String normalizedName;
   double lat;
   double lon;
 
-  City({
+  OlxCity({
     required this.id,
     required this.name,
     required this.normalizedName,
@@ -72,11 +72,11 @@ class City {
     required this.lon,
   });
 
-  factory City.fromRawJson(String str) => City.fromJson(json.decode(str));
+  factory OlxCity.fromRawJson(String str) => OlxCity.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory City.fromJson(Map<String, dynamic> json) => City(
+  factory OlxCity.fromJson(Map<String, dynamic> json) => OlxCity(
         id: json["id"],
         name: json["name"],
         normalizedName: json["normalized_name"],
@@ -93,18 +93,19 @@ class City {
       };
 }
 
-class County {
+class OlxCounty {
   String name;
 
-  County({
+  OlxCounty({
     required this.name,
   });
 
-  factory County.fromRawJson(String str) => County.fromJson(json.decode(str));
+  factory OlxCounty.fromRawJson(String str) =>
+      OlxCounty.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory County.fromJson(Map<String, dynamic> json) => County(
+  factory OlxCounty.fromJson(Map<String, dynamic> json) => OlxCounty(
         name: json["name"],
       );
 
@@ -113,22 +114,23 @@ class County {
       };
 }
 
-class Region {
+class OlxRegion {
   int id;
   String name;
   String normalizedName;
 
-  Region({
+  OlxRegion({
     required this.id,
     required this.name,
     required this.normalizedName,
   });
 
-  factory Region.fromRawJson(String str) => Region.fromJson(json.decode(str));
+  factory OlxRegion.fromRawJson(String str) =>
+      OlxRegion.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Region.fromJson(Map<String, dynamic> json) => Region(
+  factory OlxRegion.fromJson(Map<String, dynamic> json) => OlxRegion(
         id: json["id"],
         name: json["name"],
         normalizedName: json["normalized_name"],
