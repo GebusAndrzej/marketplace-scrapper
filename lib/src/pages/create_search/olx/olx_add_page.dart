@@ -20,6 +20,10 @@ class _OlxAddPageState extends State<OlxAddPage> {
 
   TextEditingController cityController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
+  TextEditingController priceTo = TextEditingController();
+  TextEditingController priceFrom = TextEditingController();
+  bool onlyWithPhotos = false;
+  bool withDelivery = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -79,7 +83,52 @@ class _OlxAddPageState extends State<OlxAddPage> {
                     },
                   ),
                 ),
-                ElevatedButton(
+                ListTile(
+                    leading: const Icon(Icons.attach_money_rounded),
+                    title: Row(
+                      children: [
+                        Expanded(
+                            child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: priceFrom,
+                          decoration:
+                              const InputDecoration(hintText: "Cena od"),
+                        )),
+                        const SizedBox(width: 10),
+                        const Text("-"),
+                        const SizedBox(width: 10),
+                        Expanded(
+                            child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: priceTo,
+                          decoration:
+                              const InputDecoration(hintText: "Cena do"),
+                        ))
+                      ],
+                    )),
+                ListTile(
+                  leading: const Icon(Icons.photo_outlined),
+                  title: CheckboxListTile(
+                    title: const Text("Tylko ze zdjęciem"),
+                    value: onlyWithPhotos,
+                    onChanged: (value) {
+                      setState(() => onlyWithPhotos = value!);
+                    },
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.mail_outline),
+                  title: CheckboxListTile(
+                    title: const Text("Dostawa"),
+                    value: withDelivery,
+                    onChanged: (value) {
+                      setState(() => withDelivery = value!);
+                    },
+                  ),
+                ),
+                Expanded(child: Container()),
+                ListTile(
+                    title: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -88,7 +137,7 @@ class _OlxAddPageState extends State<OlxAddPage> {
                     }
                   },
                   child: const Text('Submit'),
-                ),
+                )),
                 if (location != null) Text('city: ${location?.city.id}'),
                 if (location != null)
                   Text('city: ${location?.city.normalizedName}'),

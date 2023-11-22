@@ -29,10 +29,16 @@ class OlxCategorySearchDelegate extends SearchDelegate<OlxCategorySearch?> {
         if (snapshot.connectionState == ConnectionState.done) {
           return ListView.builder(
             itemBuilder: (context, index) {
+              var location = snapshot.data![index];
+              var decodedPath = Uri.decodeFull(location.href)
+                  .substring(1)
+                  .replaceAll(RegExp('/q-.*'), '')
+                  .replaceAll('/', '/');
+
               return ListTile(
                 leading: const Icon(Icons.category_rounded),
-                title: Text(snapshot.data![index].similarSearch),
-                subtitle: Text(snapshot.data![index].href),
+                title: Text(location.similarSearch),
+                subtitle: Text(decodedPath),
                 onTap: () {
                   close(context, snapshot.data![index]);
                 },
