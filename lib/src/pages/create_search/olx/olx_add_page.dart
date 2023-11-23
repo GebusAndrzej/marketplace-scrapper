@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:olx_bot/services/api/olx/types/category_types.dart';
 import 'package:olx_bot/services/api/olx/types/location_types.dart';
+import 'package:olx_bot/services/store/olx_store_service.dart';
 import 'package:olx_bot/src/pages/create_search/olx/components/olx_category_searchdelegate.dart';
 
 import 'components/olx_city_searchdelegate.dart';
@@ -131,6 +132,15 @@ class _OlxAddPageState extends State<OlxAddPage> {
                     title: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      OlxStoreService().parseConfiguration(
+                        location: location!,
+                        category: category!,
+                        priceFrom: priceFrom.value.text,
+                        priceTo: priceTo.value.text,
+                        withDelivery: withDelivery,
+                        withPhotosOnly: onlyWithPhotos,
+                      );
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
                       );
@@ -138,13 +148,6 @@ class _OlxAddPageState extends State<OlxAddPage> {
                   },
                   child: const Text('Submit'),
                 )),
-                if (location != null) Text('city: ${location?.city.id}'),
-                if (location != null)
-                  Text('city: ${location?.city.normalizedName}'),
-                if (location != null) Text('region: ${location?.region.id}'),
-                if (location != null)
-                  Text('region: ${location?.region.normalizedName}'),
-                if (category != null) Text('category: ${category?.categoryId}'),
               ],
             )));
   }

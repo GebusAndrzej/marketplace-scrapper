@@ -3,8 +3,7 @@ import 'dart:developer';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  static final NotificationService _singleton =
-      new NotificationService._internal();
+  static final NotificationService _singleton = NotificationService._internal();
 
   var initializationSettingsAndroid = const AndroidInitializationSettings(
     '@mipmap/ic_launcher',
