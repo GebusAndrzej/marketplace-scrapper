@@ -33,6 +33,12 @@ class _OlxAddPageState extends State<OlxAddPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Wyszukiwarka olx"),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         body: Form(
             key: _formKey,

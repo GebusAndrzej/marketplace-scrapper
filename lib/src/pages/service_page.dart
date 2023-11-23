@@ -3,6 +3,7 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:olx_bot/backgroundServices/notification_service.dart';
+import 'package:olx_bot/src/pages/create_search/olx/olx_add_page.dart';
 
 class ServiceTest extends StatefulWidget {
   @override
@@ -93,49 +94,57 @@ class _ServiceTestState extends State<ServiceTest> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text('BackgroundFetch Example',
-                style: TextStyle(color: Colors.black)),
-            backgroundColor: Colors.amberAccent,
-            brightness: Brightness.light,
-            actions: <Widget>[
-              Switch(value: _enabled, onChanged: _onClickEnable),
-            ]),
-        body: Container(
-          color: Colors.black,
-          child: ListView.builder(
-              itemCount: _events.length,
-              itemBuilder: (BuildContext context, int index) {
-                DateTime timestamp = _events[index];
-                return InputDecorator(
-                    decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
-                        labelStyle: TextStyle(
-                            color: Colors.amberAccent, fontSize: 20.0),
-                        labelText: "[background fetch event]"),
-                    child: Text(timestamp.toString(),
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 16.0)));
-              }),
-        ),
-        bottomNavigationBar: BottomAppBar(
-            child: Row(children: <Widget>[
-          ElevatedButton(onPressed: _onClickStatus, child: Text('Status')),
-          Container(
-            child: Text("$_status"),
-            margin: EdgeInsets.only(left: 20.0),
-          ),
-          // NotificationTest(),
-          ElevatedButton(
-              onPressed: () {
-                NotificationService().showNotification();
-              },
-              child: const Text("Notification"))
-        ])),
+    return Scaffold(
+      appBar: AppBar(
+          title: const Text('BackgroundFetch Example',
+              style: TextStyle(color: Colors.black)),
+          backgroundColor: Colors.amberAccent,
+          brightness: Brightness.light,
+          actions: <Widget>[
+            Switch(value: _enabled, onChanged: _onClickEnable),
+          ]),
+      body: Container(
+        color: Colors.black,
+        child: ListView.builder(
+            itemCount: _events.length,
+            itemBuilder: (BuildContext context, int index) {
+              DateTime timestamp = _events[index];
+              return InputDecorator(
+                  decoration: const InputDecoration(
+                      contentPadding:
+                          EdgeInsets.only(left: 10.0, top: 10.0, bottom: 0.0),
+                      labelStyle:
+                          TextStyle(color: Colors.amberAccent, fontSize: 20.0),
+                      labelText: "[background fetch event]"),
+                  child: Text(timestamp.toString(),
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 16.0)));
+            }),
       ),
+      bottomNavigationBar: BottomAppBar(
+          child: Row(children: <Widget>[
+        ElevatedButton(onPressed: _onClickStatus, child: Text('Status')),
+        Container(
+          child: Text("$_status"),
+          margin: EdgeInsets.only(left: 20.0),
+        ),
+        // NotificationTest(),
+        ElevatedButton(
+          onPressed: () {
+            NotificationService().showNotification();
+          },
+          child: const Text("Notification"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => OlxAddPage()),
+            );
+          },
+          child: const Text("Add Query"),
+        )
+      ])),
     );
   }
 }
