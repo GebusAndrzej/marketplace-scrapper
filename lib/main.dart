@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:olx_bot/backgroundServices/olx_service.dart';
 import 'package:olx_bot/src/pages/service_page.dart';
 
+import 'src/pages/watchers_list/watchers_list.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -27,7 +29,7 @@ class _AppState extends State<App> {
         primarySwatch: Colors.blue,
       ),
       // home: const HomePage(title: 'Flutter Demo Home Page'),
-      home: ServiceTest(),
+      home: WatchersList(),
     );
   }
 }

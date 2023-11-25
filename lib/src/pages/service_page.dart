@@ -3,7 +3,7 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:olx_bot/backgroundServices/notification_service.dart';
-import 'package:olx_bot/src/pages/create_search/olx/olx_add_page.dart';
+import 'package:olx_bot/src/pages/watcher_add/create_search/olx/olx_add_page.dart';
 
 class ServiceTest extends StatefulWidget {
   @override
