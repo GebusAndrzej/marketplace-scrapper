@@ -1,12 +1,16 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:olx_bot/backgroundServices/olx_service.dart';
-import 'package:olx_bot/src/pages/service_page.dart';
-
+import 'package:olx_bot/hive_model/watcher_url.dart';
 import 'src/pages/watchers_list/watchers_list.dart';
 
 Future main() async {
+  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
+
+  Hive.registerAdapter(WatcherUrlAdapter());
+  await Hive.openBox('watchersBox');
 
   runApp(const App());
 

@@ -1,16 +1,22 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:olx_bot/hive_model/watcher_url.dart';
 import 'package:olx_bot/services/api/olx/types/category_types.dart';
 import 'package:olx_bot/services/api/olx/types/location_types.dart';
+import 'package:olx_bot/services/store/watcher_url_store_service.dart';
 
-class OlxStoreService {
-  static final OlxStoreService _singleton = OlxStoreService._internal();
+import '../../config/consts.dart';
 
-  factory OlxStoreService() {
+class OlxUrlBuilderService {
+  static final OlxUrlBuilderService _singleton =
+      OlxUrlBuilderService._internal();
+
+  factory OlxUrlBuilderService() {
     return _singleton;
   }
 
-  OlxStoreService._internal() {
+  OlxUrlBuilderService._internal() {
     // Initialization
   }
 
@@ -49,7 +55,13 @@ class OlxStoreService {
 
     final url = Uri.http('www.olx.pl', 'api/v1/offers', queryParamsMap);
 
-    print(url);
-    inspect(url.toString());
+    WatcherUrl watcher = WatcherUrl(
+      name: '${location.city.normalizedName} - ${category.similarSearch}',
+      service: WATCHER_SERVICE.OLX.index,
+      url: url.toString(),
+      active: true,
+    );
+
+    return WatcherUrlStore().createWatcher(watcher);
   }
 }

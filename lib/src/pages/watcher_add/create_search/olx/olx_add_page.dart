@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:olx_bot/services/api/olx/types/category_types.dart';
 import 'package:olx_bot/services/api/olx/types/location_types.dart';
-import 'package:olx_bot/services/store/olx_store_service.dart';
+import 'package:olx_bot/services/url_builders/olx_url_builder_service.dart';
 import 'package:olx_bot/src/pages/watcher_add/create_search/olx/components/olx_category_searchdelegate.dart';
+import 'package:olx_bot/src/pages/watchers_list/watchers_list.dart';
 
 import 'components/olx_city_searchdelegate.dart';
 
@@ -142,8 +143,12 @@ class _OlxAddPageState extends State<OlxAddPage> {
               ListTile(
                 title: ElevatedButton(
                   onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Dodawanie')),
+                    );
+
                     if (_formKey.currentState!.validate()) {
-                      OlxStoreService().parseConfiguration(
+                      bool result = OlxUrlBuilderService().parseConfiguration(
                         location: location!,
                         category: category!,
                         priceFrom: priceFrom.value.text,
@@ -152,9 +157,13 @@ class _OlxAddPageState extends State<OlxAddPage> {
                         withPhotosOnly: onlyWithPhotos,
                       );
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
+                      if (result) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WatchersList()),
+                        );
+                      }
                     }
                   },
                   child: const Text('Submit'),
