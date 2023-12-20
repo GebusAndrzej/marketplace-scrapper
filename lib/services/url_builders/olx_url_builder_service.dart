@@ -56,11 +56,11 @@ class OlxUrlBuilderService {
     final url = Uri.http('www.olx.pl', 'api/v1/offers', queryParamsMap);
 
     WatcherUrl watcher = WatcherUrl(
-      name: '${location.city.normalizedName} - ${category.similarSearch}',
-      service: WATCHER_SERVICE.OLX.index,
-      url: url.toString(),
-      active: true,
-    );
+        name: '${location.city.normalizedName} - ${category.similarSearch}',
+        service: WATCHER_SERVICE.OLX.index,
+        url: url.toString(),
+        active: true,
+        id: UniqueKey().toString());
 
     return WatcherUrlStore().createWatcher(watcher);
   }

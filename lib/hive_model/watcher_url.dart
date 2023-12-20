@@ -9,6 +9,7 @@ class WatcherUrl {
     required this.url,
     required this.service,
     required this.active,
+    required this.id,
   });
 
   @HiveField(0)
@@ -22,4 +23,7 @@ class WatcherUrl {
 
   @HiveField(3)
   late bool active;
+
+  @HiveField(4)
+  late String id;
 }
